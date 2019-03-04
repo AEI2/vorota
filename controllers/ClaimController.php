@@ -50,8 +50,12 @@ class ClaimController extends Controller
             $array['ClaimSearch']['orgid']=Yii::$app->user->identity->id;
 
         }
-        if  ($this->dateorintext=='')$this->dateorintext='='.date('d.m.Y');
+       // if  ($this->dateorintext=='')$this->dateorintext='='.date('d.m.Y');
         $array['ClaimSearch']['cancel'] = '0';
+
+
+
+
 
 
         //print_r($searchModel);
@@ -59,7 +63,7 @@ class ClaimController extends Controller
             $visible='0';
         }else{$visible='1';}
         $dataProvider = $searchModel->search($array);
-
+        $dataProvider->pagination->pageSize=15;
             $items = ArrayHelper::map(\app\models\User::find()->all(),'id','username');
 
 

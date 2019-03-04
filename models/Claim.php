@@ -74,6 +74,7 @@ class Claim extends \yii\db\ActiveRecord
             'orgnametext'=>'фирма',
             'dateorintext'=>'дата заезда',
             'dateintext' => 'заезд',
+            'datedel' => '',
             'dateouttext' => 'выезд',
             'statusid' => 'статус ID',
             'typestatus' => 'источник',

@@ -70,7 +70,7 @@ AppAsset::register($this);
     //print_r(Yii::$app->user->identity->status2);
     ?>
 
-    <div class="container">
+    <div class="container slim">
         <?/*= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) */?>
