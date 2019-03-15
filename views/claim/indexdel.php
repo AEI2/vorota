@@ -26,7 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
      <?php $form2 = ActiveForm::begin(); ?>
-    <div class="col-xs-2">
+    <div class="col-xs-2" style="margin-top: -18px;">
      <?php echo $form2->field($model2,'datedel')->widget(\yii\widgets\MaskedInput::className(), ['mask' => '99.99.9999']); ?>
     </div>
     <div class="col-xs-2">

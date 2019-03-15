@@ -154,7 +154,7 @@ class ClaimSearch extends Claim
 
             'statusloginid'=>$this->userlastchangename,
             ]);
-        if  ($this->dateorintext=='')$this->dateorintext='='.date('d.m.Y');
+        //if  ($this->dateorintext=='')$this->dateorintext='='.date('d.m.Y');
 
         if (strlen($this->dateorintext)>1)
         {

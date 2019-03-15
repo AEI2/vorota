@@ -9,14 +9,20 @@ use yii\bootstrap\ActiveForm;
 
 $this->title = 'изменение пароля';
 $this->params['breadcrumbs'][] = $this->title;
+
 ?>
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
-
+    <?php
+    if (isset($error))
+    {
+        echo "<h1 style=\"color:rgb(255,0,0)\">".$error."</h1>";
+    }
+    ?>
 
 
     <?php $form = ActiveForm::begin([
-        'id' => 'login-form',
+        'id' => 'change-form',
         'layout' => 'horizontal',
         'fieldConfig' => [
             'template' => "{label}\n<div class=\"col-lg-3\">{input}</div>\n<div class=\"col-lg-8\">{error}</div>",
@@ -27,6 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
 
+    <?= $form->field($model, 'oldpass')->passwordInput()->label('старый пароль') ?>
 
     <?= $form->field($model, 'newpass')->passwordInput()->label('новый пароль') ?>
 

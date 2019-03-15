@@ -98,6 +98,17 @@ class SiteController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
             $user = User::findOne(['id' => Yii::$app->user->id]);
+
+            if (!$user || !$user->validatePassword($model->oldpass)) {
+
+
+                return $this->render('change', [
+                    'model' => $model,
+                    'error'=>'Неверный старый пароль'
+                ]);
+
+            }
+
             $user->setPassword($model->newpass);
             $user->generateAuthKey();
             if ($user->save()) {

@@ -50,13 +50,12 @@ class ClaimController extends Controller
             $array['ClaimSearch']['orgid']=Yii::$app->user->identity->id;
 
         }
-       // if  ($this->dateorintext=='')$this->dateorintext='='.date('d.m.Y');
+        if ($array['ClaimSearch']['dateorintext']=='')
+        {
+            $array['ClaimSearch']['dateorintext']='='.date('d.m.Y');
+        }
+
         $array['ClaimSearch']['cancel'] = '0';
-
-
-
-
-
 
         //print_r($searchModel);
         if (Yii::$app->user->identity->status2 == '2') {

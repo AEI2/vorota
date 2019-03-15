@@ -18,7 +18,7 @@ class ChangeForm extends Model
     public $oldpass;
     public $newpass;
     public $repeatnewpass;
-
+    private $_user = false;
 
 
 
@@ -27,9 +27,10 @@ class ChangeForm extends Model
      */
     public function rules(){
         return [
-            [['newpass','repeatnewpass'],'required'],
-            //['oldpass','validatePassword'],
+            [['oldpass','newpass','repeatnewpass'],'required'],
+
             ['repeatnewpass','compare','compareAttribute'=>'newpass'],
+            //['oldpass','validatePassword2'],
         ];
     }
 
@@ -49,22 +50,24 @@ class ChangeForm extends Model
      * @param array $params the additional name-value pairs given in the rule
      */
 
-    public function validatePassword($attribute, $params)
+    public function validatePassword2($attribute, $params)
     {
-       // if (!$this->hasErrors()) {
-            $user = $this->getUser();
 
-            if (!$user || !$user->validatePassword($this->password, $this->password_hash)) {
-                //return Yii::$app->security->validatePassword($this->password, $this->password_hash);
-                $this->addError($attribute, 'Неверный пароль');
+
+
+        if (!$this->hasErrors()) {
+            $user =  User::findOne(['id' => Yii::$app->user->id]);
+
+            if (!$user || !$user->validatePassword($this->oldpass)) {
+                $this->addError($attribute, 'Неправильный логин или пароль.');
             }
-        //}
+        }
     }
     public function changePassword()
     {
         if ($this->validate()) {
             $user = $this->_user;
-            $user->setPassword($this->newPass);
+            $user->setPassword($this->newpass);
             return $user->save();
         } else {
             return false;
@@ -74,5 +77,12 @@ class ChangeForm extends Model
      * Logs in a user using the provided username and password.
      * @return bool whether the user is logged in successfully
      */
+    public function getUser()
+    {
+        if ($this->_user === false) {
+            $this->_user = User::findByUsername(Yii::$app->user->identity->username);
+        }
 
+        return $this->_user;
+    }
 }
