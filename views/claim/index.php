@@ -109,7 +109,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                     return $model->dateintext;
 
                                 } else {
-                                    if ($model->cancel == 1) {
+                                    if (($model->cancel == 1)or(date('Y-m-d',$model->dateorin)>date('Y-m-d'))) {
                                         return '';
                                     } else {
                                         return Html::a(

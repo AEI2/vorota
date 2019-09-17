@@ -38,7 +38,7 @@ AppAsset::register($this);
 
     if (Yii::$app->user->isGuest){
 
-            $items[]=['label' => 'Войти', 'url' => ['/site/login']];
+        //    $items[]=['label' => 'Войти', 'url' => ['/site/login']];
     } else {
         //$items[]=['label' => 'База авто', 'url' => ['/auto/index']];
 

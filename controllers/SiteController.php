@@ -90,25 +90,24 @@ class SiteController extends Controller
 
     public function actionChange()
     {
-       /* if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }*/
+        /* if (!Yii::$app->user->isGuest) {
+             return $this->goHome();
+         }*/
 
         $model = new ChangeForm();
         if ($model->load(Yii::$app->request->post())) {
 
-            $user = User::findOne(['id' => Yii::$app->user->id]);
+            $user = User::findByUsername(Yii::$app->user->identity->username);
 
             if (!$user || !$user->validatePassword($model->oldpass)) {
-
-
                 return $this->render('change', [
                     'model' => $model,
-                    'error'=>'Неверный старый пароль'
+                    'error'=>'Введен неверный старый пароль'
                 ]);
-
             }
 
+
+            $user = User::findOne(['id' => Yii::$app->user->id]);
             $user->setPassword($model->newpass);
             $user->generateAuthKey();
             if ($user->save()) {

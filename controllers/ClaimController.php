@@ -44,27 +44,53 @@ class ClaimController extends Controller
     public function actionIndex()
     {
         $searchModel = new ClaimSearch();
-        $array=Yii::$app->request->queryParams;
-        if (Yii::$app->user->identity->status2=='2')
-        {
-            $array['ClaimSearch']['orgid']=Yii::$app->user->identity->id;
-
+        //if (isset(Yii::$app->request->queryParams['ClaimSearch'])) {
+        if (isset(Yii::$app->request->queryParams['ClaimSearch'])) {
+            $array = Yii::$app->request->queryParams;
         }
-        if ($array['ClaimSearch']['dateorintext']=='')
-        {
-            $array['ClaimSearch']['dateorintext']='='.date('d.m.Y');
+        else {
+            if (Yii::$app->request->cookies->has('searchmodel'))
+            {
+
+                    $array=Yii::$app->request->cookies->getValue('searchmodel');
+                    //print_r($array);
+            } else {
+
+                //print_r($array);
+                if (Yii::$app->user->identity->status2 == '2') {
+                    $array['ClaimSearch']['orgid'] = Yii::$app->user->identity->id;
+
+                }
+                if ($array['ClaimSearch']['dateorintext'] == '') {
+                    $array['ClaimSearch']['dateorintext'] = '=' . date('d.m.Y');
+                }
+
+                $array['ClaimSearch']['cancel'] = '0';
+            }
         }
-
-        $array['ClaimSearch']['cancel'] = '0';
-
         //print_r($searchModel);
+       // print_r($array);
         if (Yii::$app->user->identity->status2 == '2') {
             $visible='0';
         }else{$visible='1';}
         $dataProvider = $searchModel->search($array);
         $dataProvider->pagination->pageSize=15;
+        if (isset(Yii::$app->request->queryParams['page'])) {
+            $dataProvider->pagination->page = Yii::$app->request->queryParams['page'] - 1;
+        }
+        else
+            {
+                $dataProvider->pagination->page = $array['page'] - 1;
+            }
             $items = ArrayHelper::map(\app\models\User::find()->all(),'id','username');
 
+        $cookie = new \yii\web\Cookie([
+            'name' => 'searchmodel',
+            'value' => $array,
+
+        ]);
+
+        Yii::$app->response->cookies->add($cookie);
 
         return $this->render('index', [
             'searchModel' => $searchModel,
@@ -134,7 +160,8 @@ class ClaimController extends Controller
             $model->statusloginid =Yii::$app->user->identity->id;
         }
         $model->save(false);
-        return Yii::$app->runAction('claim/index');
+        return $this->redirect(['index']);
+        //return Yii::$app->runAction('claim/index');
     }
     public function actionVosst($id)
     {
@@ -168,14 +195,22 @@ class ClaimController extends Controller
     {
         $model = new Claim();
 
+
         if ($model->load(Yii::$app->request->post())) {
+            $post=Yii::$app->request->post();
+
             $model->loginadd = Yii::$app->user->identity->id;
             $model->dateadd=time();
-            $post=Yii::$app->request->post();
+
             $model->dateorin=strtotime($post['Claim']['dateorin']);
             $model->save(false);
 
-            return Yii::$app->runAction('claim/index');
+            //$ClaimSearch=load(Yii::$app->request->get('ClaimSearch'));
+            /*return $this->render('claim/index', [
+                'ClaimSearch' => $ClaimSearch,
+            ]);*/
+            return $this->redirect(['index']);
+           // return Yii::$app->runAction('claim/index');
         }else{
 
             return $this->render('create', [
@@ -197,7 +232,11 @@ class ClaimController extends Controller
         $model = $this->findModel($id);
         $model->statusloginid = Yii::$app->user->identity->id;
 
-        if ($model->load(Yii::$app->request->post()) && $model->save(false)) {
+
+        if ($model->load(Yii::$app->request->post())) {
+            $post=Yii::$app->request->post();
+            $model->dateorin=strtotime($post['Claim']['dateorin']);
+            $model->save(false);
           //  return $this->redirect(['view', 'id' => $model->id]);
 
           return $this->redirect(['index']);

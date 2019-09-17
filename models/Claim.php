@@ -47,8 +47,8 @@ class Claim extends \yii\db\ActiveRecord
             ['typestatus','in', 'range' => [0,1,2,3,4,6]],
             [['dateorin'],'validateDate'],
             [['autotype','comments'], 'string', 'max' => 50],
-           // [['autotype'], 'required'],
-
+            [['autotype','auton','orgid'], 'required'],
+            ['orgid',  'compare', 'compareValue' => 2, 'operator' => '>=','message' => '{attribute} не может быть пустым'],
             //['auton', 'match', 'pattern' => '/^[А,В,Е,К,М,Н,О,Р,С,Т,У,Х][0-9]{3}[А,В,Е,К,М,Н,О,Р,С,Т,У,Х]{2}[0-9]{2,3}/','message' => '{attribute} может содержать только заглавные русские буквы(А,В,Е,К,М,Н,О,Р,С,Т,У,Х) и числа в следующем порядке А555АА555.'],
             [['auton'], 'string', 'max' => 10],
         ];
@@ -74,7 +74,6 @@ class Claim extends \yii\db\ActiveRecord
             'orgnametext'=>'фирма',
             'dateorintext'=>'дата заезда',
             'dateintext' => 'заезд',
-            'datedel' => '',
             'dateouttext' => 'выезд',
             'statusid' => 'статус ID',
             'typestatus' => 'источник',
@@ -120,7 +119,7 @@ class Claim extends \yii\db\ActiveRecord
         if (isset($this->userlastchange->username))
         {
             //return Html::a($this->userlastchange->contaktname.' '.$this->userlastchange->orgname, ['user/view','id'=>$this->userlastchange->id]);
-            return $this->userlastchange->username.' '.$this->userlastchange->contaktname;
+            return $this->userlastchange->username.'.'.$this->userlastchange->contaktname;
         }else {return '';};
 
     }
@@ -141,7 +140,7 @@ class Claim extends \yii\db\ActiveRecord
         $items = [1=>'охрана',2=>'фирма'];
 
 //        return Html::a($this->user->username.' '.$items[$this->user->status2], ['user/view','id'=>$this->user->id]);
-        return $this->user->username.' '.$this->user->contaktname;
+        return $this->user->username.'.'.$this->user->contaktname;
     }
 
     public function getAuto()
@@ -157,13 +156,13 @@ class Claim extends \yii\db\ActiveRecord
     {
         if (isset($this->datein))
         {
-            if (date('N',$this->dateorin)==1) $d='пн';
-            if (date('N',$this->dateorin)==2) $d='вт';
-            if (date('N',$this->dateorin)==3) $d='ср';
-            if (date('N',$this->dateorin)==4) $d='чт';
-            if (date('N',$this->dateorin)==5) $d='пт';
-            if (date('N',$this->dateorin)==6) $d='сб';
-            if (date('N',$this->dateorin)==7) $d='вс';
+            if (date('N',$this->datein)==1) $d='пн';
+            if (date('N',$this->datein)==2) $d='вт';
+            if (date('N',$this->datein)==3) $d='ср';
+            if (date('N',$this->datein)==4) $d='чт';
+            if (date('N',$this->datein)==5) $d='пт';
+            if (date('N',$this->datein)==6) $d='сб';
+            if (date('N',$this->datein)==7) $d='вс';
 
             return $d.'.'.date('d',$this->datein).' '.date('H:i',$this->datein);
 
@@ -174,13 +173,13 @@ class Claim extends \yii\db\ActiveRecord
     {
         if (isset($this->dateout))
         {
-            if (date('N',$this->dateorin)==1) $d='пн';
-            if (date('N',$this->dateorin)==2) $d='вт';
-            if (date('N',$this->dateorin)==3) $d='ср';
-            if (date('N',$this->dateorin)==4) $d='чт';
-            if (date('N',$this->dateorin)==5) $d='пт';
-            if (date('N',$this->dateorin)==6) $d='сб';
-            if (date('N',$this->dateorin)==7) $d='вс';
+            if (date('N',$this->dateout)==1) $d='пн';
+            if (date('N',$this->dateout)==2) $d='вт';
+            if (date('N',$this->dateout)==3) $d='ср';
+            if (date('N',$this->dateout)==4) $d='чт';
+            if (date('N',$this->dateout)==5) $d='пт';
+            if (date('N',$this->dateout)==6) $d='сб';
+            if (date('N',$this->dateout)==7) $d='вс';
 
             return $d.'.'.date('d',$this->dateout).' '.date('H:i',$this->dateout);
         }
@@ -190,13 +189,13 @@ class Claim extends \yii\db\ActiveRecord
     {
         if (isset($this->dateadd))
         {
-            if (date('N',$this->dateorin)==1) $d='пн';
-            if (date('N',$this->dateorin)==2) $d='вт';
-            if (date('N',$this->dateorin)==3) $d='ср';
-            if (date('N',$this->dateorin)==4) $d='чт';
-            if (date('N',$this->dateorin)==5) $d='пт';
-            if (date('N',$this->dateorin)==6) $d='сб';
-            if (date('N',$this->dateorin)==7) $d='вс';
+            if (date('N',$this->dateadd)==1) $d='пн';
+            if (date('N',$this->dateadd)==2) $d='вт';
+            if (date('N',$this->dateadd)==3) $d='ср';
+            if (date('N',$this->dateadd)==4) $d='чт';
+            if (date('N',$this->dateadd)==5) $d='пт';
+            if (date('N',$this->dateadd)==6) $d='сб';
+            if (date('N',$this->dateadd)==7) $d='вс';
 
             return $d.'.'.date('d',$this->dateadd).' '.date('H:i',$this->dateadd);
         }
@@ -206,13 +205,13 @@ class Claim extends \yii\db\ActiveRecord
     {
         if (isset($this->datechange))
         {
-            if (date('N',$this->dateorin)==1) $d='пн';
-            if (date('N',$this->dateorin)==2) $d='вт';
-            if (date('N',$this->dateorin)==3) $d='ср';
-            if (date('N',$this->dateorin)==4) $d='чт';
-            if (date('N',$this->dateorin)==5) $d='пт';
-            if (date('N',$this->dateorin)==6) $d='сб';
-            if (date('N',$this->dateorin)==7) $d='вс';
+            if (date('N',$this->datechange)==1) $d='пн';
+            if (date('N',$this->datechange)==2) $d='вт';
+            if (date('N',$this->datechange)==3) $d='ср';
+            if (date('N',$this->datechange)==4) $d='чт';
+            if (date('N',$this->datechange)==5) $d='пт';
+            if (date('N',$this->datechange)==6) $d='сб';
+            if (date('N',$this->datechange)==7) $d='вс';
 
             return $d.'.'.date('d',$this->datechange).' '.date('H:i',$this->datechange);
         }
