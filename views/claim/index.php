@@ -32,11 +32,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
     ?>
     <?php
-    $filterchange = ArrayHelper::getColumn(\app\models\Claim::find()->select('statusloginid')->groupBy(['statusloginid'])->all(),'statusloginid');
-    $filteradd = ArrayHelper::getColumn(\app\models\Claim::find()->select('loginadd')->groupBy(['loginadd'])->all(),'loginadd');
+   // $filterchange = ArrayHelper::getColumn(\app\models\Claim::find()->select('statusloginid')->groupBy(['statusloginid'])->all(),'statusloginid');
+   // $filteradd = ArrayHelper::getColumn(\app\models\Claim::find()->select('loginadd')->groupBy(['loginadd'])->all(),'loginadd');
 
-    $userchange=ArrayHelper::map(\app\models\User::find()->where(['in','id',$filterchange])->all(),'id','username');
-    $useradd=ArrayHelper::map(\app\models\User::find()->where(['in','id',$filteradd])->all(),'id','username');
+  //  $userchange=ArrayHelper::map(\app\models\User::find()->where(['in','id',$filterchange])->all(),'id','username');
+  //  $useradd=ArrayHelper::map(\app\models\User::find()->where(['in','id',$filteradd])->all(),'id','username');
 
 
     $listdata=ArrayHelper::getColumn(\app\models\Claim::find()->select(['auton'])->groupBy(['auton'])->all(),'auton');
@@ -45,6 +45,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
+
         'rowOptions' => function($model, $key, $index, $column){
             if ($model->statusid==2)
             {
@@ -226,7 +227,7 @@ $this->params['breadcrumbs'][] = $this->title;
             ],
             [
                 'attribute' => 'username',
-                'filter'=>$useradd,
+                //'filter'=>$useradd,
                 'format' => 'raw',
 
             ],
@@ -236,7 +237,7 @@ $this->params['breadcrumbs'][] = $this->title;
             [
                 'attribute' => 'userlastchangename',
                 //'format' => 'raw',
-                    'filter'=>$userchange,
+                 //   'filter'=>$userchange,
 
 
             ],

@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = 'обновить';
 <div class="claim-update">
 <h1>
     <?php
-    echo date('d.m.Y H:i').' '.Yii::$app->user->identity->username.'.'.Yii::$app->user->identity->orgname;
+    echo date('d.m.Y H:i').' '.'№'.$model->id.' '.Yii::$app->user->identity->username.'.'.Yii::$app->user->identity->orgname;
     ?>
 <br>
     <?= Html::encode($this->title) ?></h1>

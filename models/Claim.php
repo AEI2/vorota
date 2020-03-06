@@ -164,7 +164,7 @@ class Claim extends \yii\db\ActiveRecord
             if (date('N',$this->datein)==6) $d='сб';
             if (date('N',$this->datein)==7) $d='вс';
 
-            return $d.'.'.date('d',$this->datein).' '.date('H:i',$this->datein);
+            return $d.' '.date('d.m.Y',$this->datein).' '.date('H:i',$this->datein);
 
         }
 
@@ -181,7 +181,7 @@ class Claim extends \yii\db\ActiveRecord
             if (date('N',$this->dateout)==6) $d='сб';
             if (date('N',$this->dateout)==7) $d='вс';
 
-            return $d.'.'.date('d',$this->dateout).' '.date('H:i',$this->dateout);
+            return $d.' '.date('d.m.Y',$this->dateout).' '.date('H:i',$this->dateout);
         }
 
     }
@@ -197,7 +197,7 @@ class Claim extends \yii\db\ActiveRecord
             if (date('N',$this->dateadd)==6) $d='сб';
             if (date('N',$this->dateadd)==7) $d='вс';
 
-            return $d.'.'.date('d',$this->dateadd).' '.date('H:i',$this->dateadd);
+            return $d.' '.date('d.m.Y',$this->dateadd).' '.date('H:i',$this->dateadd);
         }
 
     }
@@ -213,7 +213,7 @@ class Claim extends \yii\db\ActiveRecord
             if (date('N',$this->datechange)==6) $d='сб';
             if (date('N',$this->datechange)==7) $d='вс';
 
-            return $d.'.'.date('d',$this->datechange).' '.date('H:i',$this->datechange);
+            return $d.' '.date('d.m.Y',$this->datechange).' '.date('H:i',$this->datechange);
         }
 
     }
@@ -227,7 +227,7 @@ class Claim extends \yii\db\ActiveRecord
         if (date('N',$this->dateorin)==6) $d='сб';
         if (date('N',$this->dateorin)==7) $d='вс';
 
-        return $d.'.'.date('d',$this->dateorin);
+        return $d.' '.date('d.m.Y',$this->dateorin);
 
     }
 }
