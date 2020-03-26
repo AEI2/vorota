@@ -35,7 +35,7 @@ AppAsset::register($this);
             'class' => 'navbar-default navbar-fixed-top',
         ],
     ]);
-
+    $items=[];
     if (Yii::$app->user->isGuest){
 
         //    $items[]=['label' => 'Войти', 'url' => ['/site/login']];
