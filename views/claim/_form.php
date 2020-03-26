@@ -31,11 +31,11 @@ use kartik\date\DatePicker;
         $items = array(5=>'',3=>'эл. почта',4=>'бумага',0=>'телефон',1=>'устно');
 
         echo $form->field($model, 'typestatus')->dropDownList($items)->label('выберите <b>источник</b>');
-        $items = ArrayHelper::map(\app\models\User::find()->where(['=','status2','2'])->all(),'id','orgname');
+        $items = ArrayHelper::map(\app\models\Claim::find()->all(),'orgname','orgname');
         //array_unshift($items, '');
         $items['1']='';
         ksort($items);
-        echo $form->field($model, 'orgid')->dropDownList($items);
+        echo $form->field($model, 'orgname')->dropDownList($items);
     }
     echo '<label>дата</label>';
 

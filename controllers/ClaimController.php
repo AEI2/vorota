@@ -45,6 +45,7 @@ class ClaimController extends Controller
     {
         $searchModel = new ClaimSearch();
         //if (isset(Yii::$app->request->queryParams['ClaimSearch'])) {
+        $array=[];
         if (isset(Yii::$app->request->queryParams['ClaimSearch'])) {
             $array = Yii::$app->request->queryParams;
         }
@@ -53,14 +54,13 @@ class ClaimController extends Controller
             {
 
                     $array=Yii::$app->request->cookies->getValue('searchmodel');
+
                     //print_r($array);
             } else {
 
                 //print_r($array);
-                if (Yii::$app->user->identity->status2 == '2') {
-                    $array['ClaimSearch']['orgid'] = Yii::$app->user->identity->id;
 
-                }
+
                 if ($array['ClaimSearch']['dateorintext'] == '') {
                     $array['ClaimSearch']['dateorintext'] = '=' . date('d.m.Y');
                 }
@@ -68,11 +68,20 @@ class ClaimController extends Controller
                 $array['ClaimSearch']['cancel'] = '0';
             }
         }
+
         //print_r($searchModel);
        // print_r($array);
         if (Yii::$app->user->identity->status2 == '2') {
             $visible='0';
         }else{$visible='1';}
+
+        if (Yii::$app->user->identity->status2 == '2') {
+
+            $array['ClaimSearch']['orgname'] = Yii::$app->user->identity->orgname;
+
+        }
+        //
+        //print_r($array);
         $dataProvider = $searchModel->search($array);
         $dataProvider->pagination->pageSize=15;
         if (isset(Yii::$app->request->queryParams['page'])) {

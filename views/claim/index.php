@@ -69,12 +69,13 @@ $this->params['breadcrumbs'][] = $this->title;
 
 
             ],
+
             [
 
-                'attribute' =>'orgnametext',
+                'attribute' =>'orgname',
                 'visible' => $visible
-                            ,
-                ],
+                ,
+            ],
             [
                 'attribute' =>'autotype',
 

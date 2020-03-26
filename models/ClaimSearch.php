@@ -37,7 +37,7 @@ class ClaimSearch extends Claim
     {
         return [
             [['id', 'loginadd', 'autoid', 'statusid', 'statusloginid','cancel',], 'integer'],
-            [['userlastchangename','datechangetext','dateadd','datein', 'dateout', 'comments','auton','dateaddtext','orgnametext','username','typestatusname2','autotype','auton','orgid','dateorintext','typestatusname'], 'safe'],
+            [['userlastchangename','datechangetext','dateadd','datein', 'dateout', 'comments','auton','dateaddtext','orgnametext','username','typestatusname2','autotype','auton','orgid','dateorintext','typestatusname','orgname'], 'safe'],
 
         ];
     }
@@ -124,6 +124,7 @@ class ClaimSearch extends Claim
                 ],
                 'autotype',
                 'auton',
+                'orgname',
 
             ]
         ]);
@@ -141,7 +142,8 @@ class ClaimSearch extends Claim
         // grid filtering conditions
         $query->andFilterWhere([
             'claim.id' => $this->id,
-            'orgid' => $this->orgid,
+           // 'orgid' => $this->orgid,
+            'claim.orgname' => $this->orgname,
             'loginadd' => $this->username,
             'autoid' => $this->autoid,
           //  'datein' => $this->datein,
@@ -179,9 +181,9 @@ class ClaimSearch extends Claim
         if (substr($this->dateaddtext,0,1)=='>') $query->andFilterWhere(['>', 'dateadd', strtotime($this->dateadd(substr($this->dateaddtext,1)))]);
         if (substr($this->dateaddtext,0,1)=='<') $query->andFilterWhere(['<', 'dateadd', strtotime($this->dateadd(substr($this->dateaddtext,1)))]);
         if (substr($this->dateaddtext,0,1)=='=') $query->andFilterWhere(['=', 'dateadd', strtotime($this->dateadd(substr($this->dateaddtext,1)))]);
-        $query->joinWith(['orgname2' => function ($q) {
+        /*$query->joinWith(['orgname2' => function ($q) {
             $q->where('user.orgname LIKE "%' . $this->orgnametext . '%"');
-        }]);
+        }]);*/
      /*  $query->joinWith(['user' => function ($q) {
             $q->where('user2.username LIKE "%' . $this->username . '%"');
         }]);*/
